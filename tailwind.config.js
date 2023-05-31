@@ -12,7 +12,17 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      fontFamily:{
+        Montserrat: ["Montserrat ", "sans-serif"],
+        Poppins: ["Poppins ", "sans-serif"],
+        Prompt: ["Prompt ", "sans-serif"],
+        Merriweather: ["Merriweather ", "serif"],
+        NotoSerifKhojki: ["Noto Serif Khojki ", "serif"],
+     
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide')
+  ],
 }
