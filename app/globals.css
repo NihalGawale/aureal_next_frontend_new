@@ -1,3 +1,12 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@300&family=Pacifico&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@300&family=Pacifico&family=Poppins&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@300&family=Pacifico&family=Poppins:wght@400;600&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@300&family=Pacifico&family=Poppins:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@300&family=Pacifico&family=Poppins:wght@400;600;700&family=Prompt:wght@500&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@300&family=Pacifico&family=Poppins:wght@400;600;700&family=Prompt&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Noto+Serif+Khojki:wght@600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -24,4 +33,24 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+.menu-items {
+  display: none;
+}
+.menu-btn:hover .menu-items {
+  position: absolute;
+  z-index: 80;
+  
+  display: flex;
+}
+
+.notificationBox{
+  display: flex;
+  align-items: center;
+  border-radius: 1.5rem;
+  border-width: 2px;
+  border-color: rgb(106 180 250 );
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+  box-shadow: 0 0 10px rgba(202, 202, 202, 0.4);
 }
