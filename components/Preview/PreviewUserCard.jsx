@@ -2,7 +2,7 @@ import { useUserContext } from '@/contexts/UserContext';
 import Image from 'next/image';
 import React from 'react';
 import PersonIcon from "@mui/icons-material/Person";
-
+import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 const PreviewUserCard = () => {
     const {userData} = useUserContext();
 
@@ -16,8 +16,8 @@ const PreviewUserCard = () => {
         className="rounded-full object-cover"
       />
     ) : (
-      <PersonIcon
-        className="text-3xl"
+      <AccountCircleSharpIcon
+        className="text-3xl text-[#d9cdcd]"
         style={{ fontSize: "100px" }}
       />
     )}

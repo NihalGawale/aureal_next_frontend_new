@@ -70,9 +70,7 @@ function Conference() {
         </Button>
       </div>
     );
-  } else {
-    <div>Loading</div>;
-  }
+  } 
 }
 
 export default Conference;

@@ -14,9 +14,9 @@ const RoomCards = ({ room }) => {
 
   return (
     <div className="h-60 w-96 relative bg-[#843de8] flex flex-col  text-white mx-2 rounded-md hover:cursor-pointer  hover:scale-105 transform  transition duration-500">
-      <div className="flex items-center justify-end pr-4 w-full h-[15%] flex-row space-x-1">
+      <div className="flex items-center justify-end pr-4 w-full h-[15%] flex-row space-x-1 animate-pulse">
         <div className="pb-[5px]">
-          <FiberManualRecordIcon style={{ fontSize: "7px" }} />
+          <FiberManualRecordIcon style={{ fontSize: "9px" }} className=""/>
         </div>
         <div className="text-sm font-Prompt font-medium">Live</div>
       </div>

@@ -26,12 +26,19 @@ const Body = () => {
     setRooms(enabledRooms);
   }
 
+  
   useEffect(() => {
     const init = async () => {
       console.log("init called List Rooms");
       await checkAndGetToken("mg-access-token");
       if (mgAccessToken) {
         await listRooms();
+
+        const interval = setInterval(() => {
+          listRooms();
+        }, 10000);
+
+        return () => clearInterval(interval);
       }
     };
     init();

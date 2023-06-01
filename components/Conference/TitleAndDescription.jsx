@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 
 const TitleAndDescription = ({ peers }) => {
   const room = useHMSStore(selectRoom);
+  console.log(room);
   const { description,setDescription ,getSpecificRoomData } = useRoomContext();
   const init = async() => {
     console.log(description,"desc");

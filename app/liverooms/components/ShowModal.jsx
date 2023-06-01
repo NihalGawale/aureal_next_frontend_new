@@ -1,24 +1,38 @@
 "use client";
 
 import { useRoomContext } from "@/contexts/RoomContext";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
 const ShowModal = () => {
-  const { setShowModal, setRoomName, setDescription ,createRoom} = useRoomContext();
+  const { setShowModal, roomName, setRoomName, setDescription, createRoom } =
+    useRoomContext();
+  const [userEnteredRoomName, setUserEnteredRoomName] = useState();
   const handleSetRoomName = (e) => {
     e.preventDefault();
-    setRoomName(e.target.value);
+    setUserEnteredRoomName(e.target.value);
   };
 
   const handleSetDesc = (e) => {
     e.preventDefault();
     setDescription(e.target.value);
   };
+
+  const updateRoomName = async () => {};
   const handleSubmit = async () => {
-    setShowModal(false);
     createRoom();
+    setShowModal(false);
   };
+
+  useEffect(() => {
+    if (userEnteredRoomName) {
+      let title = userEnteredRoomName;
+      title = title.replaceAll(" ", "_");
+
+      setRoomName(title);
+    }
+  }, [userEnteredRoomName]);
+
   return (
     <>
       <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none backdrop-blur-xl">
@@ -81,7 +95,6 @@ const ShowModal = () => {
             <div className="flex items-center relative justify-end p-6 rounded-b">
               <button
                 className="text-gray-400 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none"
-                
                 onClick={() => setShowModal(false)}
               >
                 Close
