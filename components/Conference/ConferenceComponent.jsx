@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import Peer from '../Tile/Peer';
 
@@ -30,7 +31,7 @@ const ConferenceComponent = ({peers,host}) => {
       {peers.length > 0 &&
         peers.map((peer) =>
           peer.roleName === "listener" ? (
-            <Peer key={peer.id} peer={peer} />
+            <Peer key={peer.id} peer={peer} />                                    
           ) : null
         )}
     </div>

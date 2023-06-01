@@ -1,11 +1,12 @@
+"use client"
 import { useRoomContext } from "@/contexts/RoomContext";
 import { selectRoom, useHMSStore } from "@100mslive/react-sdk";
 import React, { useEffect } from "react";
 
 const TitleAndDescription = ({ peers }) => {
   const room = useHMSStore(selectRoom);
-  console.log(room);
-  const { description,setDescription ,getSpecificRoomData } = useRoomContext();
+
+  const { description, setDescription, getSpecificRoomData} = useRoomContext();
   const init = async() => {
     console.log(description,"desc");
     if(description == "") {

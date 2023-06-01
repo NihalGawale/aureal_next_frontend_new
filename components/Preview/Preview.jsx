@@ -38,10 +38,10 @@ const Preview = () => {
   let room_id;
   let room_name;
 
-  if (typeof window !== "undefined") {
-    room_id = handleLocalStorage("get", "roomId");
-    room_name = handleLocalStorage("get", "roomName");
-  }
+
+  room_id = handleLocalStorage("get", "roomId");
+  room_name = handleLocalStorage("get", "roomName");
+  
 
   const isInPreview = useHMSStore(selectIsInPreview);
   const isConnectedToRoom = useHMSStore(selectIsConnectedToRoom);

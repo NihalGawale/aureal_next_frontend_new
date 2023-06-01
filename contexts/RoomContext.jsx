@@ -13,7 +13,7 @@ export const useRoomContext = () => {
 
 export const RoomProvider = ({ children }) => {
   const { mgAccessToken, setUserRole, handleLocalStorage } = useUserContext();
-  const [showModal, setShowModal] = useState();
+  const [showModal, setShowModal] = useState(false);
   const [roomName, setRoomName] = useState("");
   const [description, setDescription] = useState("");
   const [roomId, setRoomId] = useState("");
@@ -77,7 +77,7 @@ export const RoomProvider = ({ children }) => {
     }
     let mgAccessToken = handleLocalStorage("get", "mg-access-token");
     const response = await axios.post(
-      "http://localhost:2017/public/getSpecificRoomData",
+      "https://api.aureal.one/public/getRoomDataHMS",
       { roomId: roomId, mg_access_token: mgAccessToken }
     );
     console.log(response.data, "Active Room Data in Conference");

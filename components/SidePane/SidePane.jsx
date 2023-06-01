@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect } from "react";
 import PeerList from "../PeerList/PeerList";
 import ChatContainer from "../Chat/ChatContainer";
