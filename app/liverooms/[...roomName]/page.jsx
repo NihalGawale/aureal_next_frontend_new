@@ -10,35 +10,41 @@ const page = ({ params }) => {
   const roomName = params.roomName[0];
   const roomId = params.roomName[1];
   let userName = "";
-  const isConnected = useHMSStore(selectIsConnectedToRoom);
-  console.log(isConnected);
+  let userImage = "";
+
   const router = useRouter();
   if (typeof window !== "undefined") {
     userName = handleLocalStorage("get", "userName");
+    userImage = handleLocalStorage("get", "useImage");
+    if (userName == null) {
+      userName = "";
+    }
     console.log(userName);
-    console.log(typeof(userName));
+    console.log(typeof userName);
     handleLocalStorage("set", "roomId", roomId);
     handleLocalStorage("set", "roomName", roomName);
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     const pushToPreview = async () => {
       return router.push("/liverooms/preview");
     };
     async function init() {
-      if (userName == null || isConnected == false) {
+      if (userName == "") {
         pushToPreview();
       }
     }
     init();
-  },[])
+  }, []);
 
-  if (userName = null || isConnected == false) {
+  if (userName == "" ) {
     console.log("you are here");
     return (
-     
-      <div className="w-screen h-screen  text-center flex items-center justify-center">
-        <div role="status" className="flex">
+      <div className="text-center  w-screen h-screen">
+        <div
+          role="status"
+          className="bg-red-500 flex items-center justify-center w-full h-full"
+        >
           <svg
             aria-hidden="true"
             className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-500"
@@ -55,9 +61,9 @@ const page = ({ params }) => {
               fill="currentFill"
             />
           </svg>
+          {/* <span className="sr-only">Loading...</span> */}
         </div>
       </div>
- 
     );
   } else {
     return (

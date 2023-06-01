@@ -59,8 +59,8 @@ function Conference() {
     );
   } else if (room && isConnected == false) {
     return (
-      <div>
-        <div> It looks like you got disconnected for some reason! The page might have been refreshed. Please join again</div>
+      <div className="w-full h-full flex justify-center items-center ">
+        <div className="w-[45%] h-[50%] bg-red-600"> It looks like you got disconnected for some reason! The page might have been refreshed. Please join again</div>
         <Button
           onClick={() => {
             handleOnClick()

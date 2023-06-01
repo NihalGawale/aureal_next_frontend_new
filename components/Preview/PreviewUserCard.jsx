@@ -16,7 +16,7 @@ const PreviewUserCard = () => {
         className="rounded-full object-cover"
       />
     ) : (
-      <AccountCircleSharpIcon
+      <PersonIcon
         className="text-3xl text-[#d9cdcd]"
         style={{ fontSize: "100px" }}
       />
