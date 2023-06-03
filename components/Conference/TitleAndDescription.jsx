@@ -7,20 +7,13 @@ const TitleAndDescription = ({ peers }) => {
   const room = useHMSStore(selectRoom);
 
   const { description, setDescription, getSpecificRoomData} = useRoomContext();
-  const init = async() => {
-    console.log(description,"desc");
-    if(description == "") {
-      
-      const response = await getSpecificRoomData(room.id)
-      console.log(response.description,"title and desc");
-      setDescription(response.description)
-   }
-  }
-  useEffect(() => {
-  
-    init()
-  },[])
- 
+
+  useEffect(()=>{
+    if (description == ""){
+      const response = getSpecificRoomData()
+    }
+
+  }, [description])
   return (
     <div
       id="titleAndDesc"

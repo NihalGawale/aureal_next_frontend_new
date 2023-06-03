@@ -6,7 +6,7 @@ import { usePeerContext } from "@/contexts/PeerContext";
 
 const SidePane = () => {
   const {showPeerList, setShowPeerList} = usePeerContext();
-  console.log(showPeerList,"side pane showpeerlist-----");
+  // console.log(showPeerList,"side pane showpeerlist-----");
   return (
     <div
       id="side-pane"

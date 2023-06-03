@@ -28,7 +28,6 @@ export const RoomProvider = ({ children }) => {
       next: { revalidate: 10 },
     };
 
-    console.log(config, "config");
     const response = await axios.get("https://api.100ms.live/v2/rooms", config);
     return response.data.data;
   };
@@ -60,9 +59,9 @@ export const RoomProvider = ({ children }) => {
       handleLocalStorage("set", "roomId", response.data.id);
       handleLocalStorage("set", "roomName", response.data.name);
       setUserRole("host");
-      handleLocalStorage("set", "userRole", "host");
+      handleLocalStorage("set", "role", "host");
       setRoomId(response.data.id);
-      router.push(`/liverooms/preview`);
+      
     } catch (error) {
       console.log("Error creating Room");
     }
@@ -81,7 +80,24 @@ export const RoomProvider = ({ children }) => {
       { roomId: roomId, mg_access_token: mgAccessToken }
     );
     console.log(response.data, "Active Room Data in Conference");
-    return Promise.resolve(response.data)
+    return Promise.resolve(response.data);
+  };
+
+  const createRoomCodes = async (room_id, role) => {
+    let mgAccessToken = handleLocalStorage("get", "mg-access-token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${mgAccessToken}`,
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await axios.post(
+      `https://api.100ms.live/v2/room-codes/room/${room_id}/role/${role}`,
+      {},
+      config
+    );
+
+    return response.data
   };
 
   return (
@@ -97,7 +113,8 @@ export const RoomProvider = ({ children }) => {
         setShowModal,
         listAllRooms,
         createRoom,
-        getSpecificRoomData
+        getSpecificRoomData,
+        createRoomCodes,
       }}
     >
       {children}

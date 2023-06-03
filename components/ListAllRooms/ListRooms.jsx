@@ -15,7 +15,11 @@ function ListRooms({ rooms }) {
   function handleCardClick(room) {
     handleLocalStorage("set", "roomId", room.id);
     handleLocalStorage("set", "roomName", room.name);
+    console.log("Check Values on SET ROOM ID AND NAME")
+    console.log(handleLocalStorage("get", "roomId"))
+    console.log(handleLocalStorage("get", "roomName"))
     setDescription(room.description);
+    handleLocalStorage("set", "role", "listener")
     router.push("/liverooms/preview");
   }
 

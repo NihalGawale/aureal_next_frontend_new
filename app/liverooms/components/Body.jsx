@@ -18,11 +18,11 @@ const Body = () => {
   async function listRooms() {
     let enabledRooms = []
     const resp = await listAllRooms();
-    console.log(resp, "list all rooms------");
+    // console.log(resp, "list all rooms------");
     resp.map((room) => {
       if (room.enabled === true) enabledRooms.push(room);
     });
-    console.log(enabledRooms.length,"enabledRooms");
+    // console.log(enabledRooms.length,"enabledRooms");
     setRooms(enabledRooms);
   }
 

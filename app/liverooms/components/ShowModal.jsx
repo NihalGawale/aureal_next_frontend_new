@@ -3,11 +3,13 @@
 import { useRoomContext } from "@/contexts/RoomContext";
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import { useRouter } from "next/navigation";
 
 const ShowModal = () => {
   const { setShowModal, roomName, setRoomName, setDescription, createRoom } =
     useRoomContext();
   const [userEnteredRoomName, setUserEnteredRoomName] = useState();
+  const router = useRouter();
   const handleSetRoomName = (e) => {
     e.preventDefault();
     setUserEnteredRoomName(e.target.value);
@@ -22,6 +24,7 @@ const ShowModal = () => {
   const handleSubmit = async () => {
     createRoom();
     setShowModal(false);
+    router.push(`/liverooms/preview`);
   };
 
   useEffect(() => {

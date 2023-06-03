@@ -26,8 +26,8 @@ const CallWrapper = ({ roomId, roomName }) => {
     pushToPreview();
   }
 
-  handleLocalStorage("set", "roomId", roomId);
-  handleLocalStorage("set", "roomName", roomName);
+  // handleLocalStorage("set", "roomId", roomId);
+  // handleLocalStorage("set", "roomName", roomName);
 
 
   if (!userName) {
