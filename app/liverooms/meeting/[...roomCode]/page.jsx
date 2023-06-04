@@ -15,15 +15,19 @@ const page = ({ params }) => {
   const {
     handleLocalStorage,
     deleteDataOnLeave,
-    mgAccessToken,
-    checkAndGetToken,
-    userRole,
     userData,
   } = useUserContext();
 
-  let { roomCode } = params;
-  roomCode = roomCode[0];
+  // let { roomCode,roomId } = params;
+ let roomCode = params.roomCode[0];
+ let roomId = params.roomCode[1]
+  console.log(roomCode,roomId,"dynamic route------");
   handleLocalStorage("set", "roomCode", roomCode);
+  let room_id = handleLocalStorage("get", "roomId", roomId);
+  console.log(room_id,"room_id checking for guest");
+  if(room_id == null) {
+    handleLocalStorage("set", "roomId", roomId);
+  }
 
   const hmsActions = useHMSActions();
   const router = useRouter();
@@ -128,7 +132,7 @@ const page = ({ params }) => {
         >
           Join Again
         </Button>
-        <a href="https://aureal.one/home">Check out Aureal One</a>
+        <a href="https://aureal.one/">Check out Aureal One</a>
       </div>
     );
   } else if (roomState == "Disconnected" && isGuest == null) {

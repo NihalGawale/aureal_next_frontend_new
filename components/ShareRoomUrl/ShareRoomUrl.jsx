@@ -3,7 +3,7 @@ import { Button, IconButton, Snackbar, Tooltip } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import React, { useState } from "react";
 import Slide from '@mui/material/Slide';
-const ShareRoomUrl = () => {
+const ShareRoomUrl = ({meetingUrl}) => {
   const { roomName, roomId } = useRoomContext();
   const [open, setOpen] = useState(false);
 
@@ -17,7 +17,7 @@ const ShareRoomUrl = () => {
   const handleClick = () => {
     setOpen(true);
  navigator.clipboard.writeText(
-      `http://localhost:3007/liveRooms/${roomName? roomName : "null"}/${roomId ? roomId : "null"}`
+      `http://localhost:3000${meetingUrl}`
     );
   };
 

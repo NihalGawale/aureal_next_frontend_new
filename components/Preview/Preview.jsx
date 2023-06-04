@@ -19,9 +19,7 @@ import { useRoomContext } from "@/contexts/RoomContext";
 const Preview = () => {
   const { remotePeers, level } = usePeerContext();
   const hmsActions = useHMSActions();
-  const {
-    handleLocalStorage,
-  } = useUserContext();
+  const { handleLocalStorage, mgAccessToken,checkAndGetToken } = useUserContext();
 
   const { createRoomCodes } = useRoomContext();
   const [meetingUrl, setMeetingUrl] = useState("");
@@ -35,17 +33,16 @@ const Preview = () => {
     setUserName(e.target.value);
   };
 
-///////////////////////////////////////
+  ///////////////////////////////////////
   let token;
   let response;
-
 
   async function init() {
     let room_id = handleLocalStorage("get", "roomId");
     let room_name = handleLocalStorage("get", "roomName");
     let role = handleLocalStorage("get", "role");
     let roomCode = handleLocalStorage("get", "roomCode");
-    console.log(roomCode)
+    console.log(roomCode);
     if (roomCode == null) {
       console.log("Generating Room Code");
       response = await createRoomCodes(room_id, role);
@@ -54,13 +51,15 @@ const Preview = () => {
       handleLocalStorage("set", "roomCode", response.code);
       roomCode = response.code;
     }
-    // console.log(roomCode);
-    setMeetingUrl(`/liverooms/meeting/${roomCode}`);
+    if (mgAccessToken == undefined) {
+      checkAndGetToken("mg-access-token", room_id);
+    }
+    setMeetingUrl(`/liverooms/meeting/${roomCode}/${room_id}`);
 
     const token = await hmsActions.getAuthTokenByRoomCode({
       roomCode: roomCode,
     });
-    console.log(token)
+    console.log(token);
 
     handleLocalStorage("set", "authToken", token);
 
@@ -83,8 +82,8 @@ const Preview = () => {
   }
 
   const handleOnClick = () => {
-    console.log(meetingUrl)
-    handleLocalStorage("set", "userName", userName)
+    console.log(meetingUrl);
+    handleLocalStorage("set", "userName", userName);
     router.push(meetingUrl);
   };
 
@@ -96,7 +95,7 @@ const Preview = () => {
     <div className="w-full h-[41%] flex justify-center items-center">
       <div className="w-[80%] h-full bg-[#1a1a1a] rounded-2xl">
         <div className="w-full h-[5%]  pt-8 flex justify-end items-center pr-5">
-          <ShareRoomUrl />
+          <ShareRoomUrl meetingUrl={meetingUrl} />
         </div>
         <div className="h-[75%] w-full  flex justify-center items-center">
           <div
@@ -135,6 +134,5 @@ const Preview = () => {
     </div>
   );
 };
-
 
 export default Preview;

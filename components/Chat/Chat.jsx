@@ -1,12 +1,13 @@
 import { useUserContext } from "@/contexts/UserContext";
+import { selectLocalPeer, useHMSStore } from "@100mslive/react-sdk";
 import React from "react";
 
 const Chat = ({ msg }) => {
   
   // const {userData} = useUserContext();
   const { handleLocalStorage} = useUserContext();
+  const localPeer = useHMSStore(selectLocalPeer);
    let  user_id = handleLocalStorage('get', "user_id") || "1234";
-   console.log(user_id,msg.senderUserId,"msg");
   let hours = msg.time.getHours();
   let minutes = msg.time.getMinutes();
   const time = () => {
@@ -21,14 +22,14 @@ const Chat = ({ msg }) => {
     return hours + ":" + minutes;
   };
 
-  if (msg.senderUserId == user_id) {
+  if (msg.sender == localPeer.id || undefined) {
     return (
       <div id="message" className="w-auto h-auto flex items-end justify-end ">
         <div
           id="message-wrapper"
-          className="max-w-[280px] h-auto  flex items-end justify-end "
+          className="max-w-[200px] 2xl:max-w-[280px] h-auto  flex items-end justify-end "
         >
-          <div className="text-white font-Prompt font-medium break-words relative bg-[#0a0b16] rounded-2xl rounded-br-none text-left py-3 px-2 ">
+          <div className="text-white w-full font-Prompt font-medium break-words relative bg-[#0a0b16] rounded-2xl rounded-br-none text-left py-3 px-2 ">
             <div className="flex flex-col px-3 py-1 text-white  justify-start gap-y-2  text-sm">
               <div className="flex justify-between space-x-2">
                 <div>{msg.senderName}</div>
@@ -48,9 +49,9 @@ const Chat = ({ msg }) => {
       <div id="message" className="w-auto h-auto flex  justify-start ">
         <div
           id="message-wrapper"
-          className="max-w-[280px] h-auto flex  justify-start "
+          className="max-w-[200px]  2xl:max-w-[280px] h-auto flex  justify-start "
         >
-          <div className="text-white font-Prompt font-medium  break-words  bg-[#050505] rounded-2xl rounded-bl-none text-left py-3 px-2">
+          <div className="text-white w-full font-Prompt font-medium  break-words  bg-[#050505] rounded-2xl rounded-bl-none text-left py-3 px-2">
             <div className="flex flex-col  px-3 py-1 text-white  gap-y-2 text-sm ">
               <div className="flex  space-x-2 justify-between">
                 <div>{msg.senderName}</div>

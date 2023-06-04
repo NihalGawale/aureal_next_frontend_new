@@ -117,15 +117,7 @@ function Footer(params) {
   };
 
   const leaveRoom = async () => {
-    // handleLocalStorage("delete", "auth-token");
-    // handleLocalStorage("delete", "roomId");
-    // handleLocalStorage("delete", "roomName");
-    // handleLocalStorage("delete", "host");
-    // router.push(
-    //   `/liverooms?user_id=${
-    //     handleLocalStorage("get", "user_id") || "guest-user"
-    //   }`
-    // );
+
 
     await hmsActions.leave();
   };

@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 function ListRooms({ rooms }) {
   let enabledRooms = [];
 
-  const { setDescription } = useRoomContext();
+  const { setDescription ,setRoomName} = useRoomContext();
   const { handleLocalStorage } = useUserContext();
   const router = useRouter();
 
@@ -18,6 +18,7 @@ function ListRooms({ rooms }) {
     console.log("Check Values on SET ROOM ID AND NAME")
     console.log(handleLocalStorage("get", "roomId"))
     console.log(handleLocalStorage("get", "roomName"))
+    setRoomName(room.name)
     setDescription(room.description);
     handleLocalStorage("set", "role", "listener")
     router.push("/liverooms/preview");
