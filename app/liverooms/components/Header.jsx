@@ -21,7 +21,7 @@ const Header = () => {
         </h2>
       </div>
       <div className="flex space-x-4 items-center">
-        <div className="pl-2 relative text-lg text-blue-400 font-bold">
+        <div className="pl-2 relative text-lg text-blue-400 font-medium">
           <Link href="https://aureal.one/home">Back to Aureal One</Link>
         </div>
       </div>

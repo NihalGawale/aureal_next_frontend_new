@@ -82,9 +82,14 @@ const Preview = () => {
   }
 
   const handleOnClick = () => {
-    console.log(meetingUrl);
-    handleLocalStorage("set", "userName", userName);
-    router.push(meetingUrl);
+    if(!userName){
+      alert("Name is required");
+    }else{
+      console.log(meetingUrl);
+      handleLocalStorage("set", "userName", userName);
+      router.push(meetingUrl);
+    }
+    
   };
 
   useEffect(() => {
@@ -116,6 +121,7 @@ const Preview = () => {
               id="outlined-basic"
               value={userName}
               placeholder="Enter you name"
+              required={true}
               onChange={(e) => handleChangeUserName(e)}
               sx={{ input: { color: "white", fontSize: "20px" } }}
             />

@@ -4,10 +4,17 @@ import { useRoomContext } from "@/contexts/RoomContext";
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useRouter } from "next/navigation";
+import { TextField } from "@mui/material";
 
 const ShowModal = () => {
-  const { setShowModal, roomName, setRoomName, setDescription, createRoom } =
-    useRoomContext();
+  const {
+    setShowModal,
+    roomName,
+    description,
+    setRoomName,
+    setDescription,
+    createRoom,
+  } = useRoomContext();
   const [userEnteredRoomName, setUserEnteredRoomName] = useState();
   const router = useRouter();
   const handleSetRoomName = (e) => {
@@ -20,11 +27,17 @@ const ShowModal = () => {
     setDescription(e.target.value);
   };
 
-  const updateRoomName = async () => {};
   const handleSubmit = async () => {
-    createRoom();
-    setShowModal(false);
-    router.push(`/liverooms/preview`);
+    if (!roomName) {
+      alert("Room name is required");
+    } else if (!description) {
+      alert("Description is required");
+    }else{
+      createRoom();
+      setShowModal(false);
+      router.push(`/liverooms/preview`);
+    }
+  
   };
 
   useEffect(() => {
@@ -76,7 +89,7 @@ const ShowModal = () => {
                     Room Name
                   </label>
                 </div>
-
+         
                 <div className="relative">
                   <input
                     required
