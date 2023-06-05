@@ -58,7 +58,7 @@ const Preview = () => {
       handleLocalStorage("set", "userRole", "listener");
     }
     let roomCode = handleLocalStorage("get", "roomCode");
-    console.log(roomCode);
+    console.log(room_id, room_name, role, "----------" );
     if (roomCode == null) {
       response = await createRoomCodes(room_id);
       // handleLocalStorage("set", "roomCodes", response.data);
