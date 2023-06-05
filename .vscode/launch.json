@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "http://localhost:3000/liverooms?user_id=7534545d9c4541b454a9c32d90127333",
+            "url": "https://aureal-next-frontend-new.vercel.app/liverooms?user_id=7534545d9c4541b454a9c32d90127333",
             "webRoot": "${workspaceFolder}"
         }
     ]
