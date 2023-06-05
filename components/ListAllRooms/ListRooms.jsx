@@ -20,7 +20,7 @@ function ListRooms({ rooms }) {
     console.log(handleLocalStorage("get", "roomName"))
     setRoomName(room.name)
     setDescription(room.description);
-    handleLocalStorage("set", "role", "listener")
+    handleLocalStorage("set", "userRole", "listener")
     router.push("/liverooms/preview");
   }
 

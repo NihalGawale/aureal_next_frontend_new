@@ -19,6 +19,9 @@ export const RoomProvider = ({ children }) => {
   const [roomId, setRoomId] = useState("");
   const [roomData, setRoomData] = useState();
   const router = useRouter();
+  const [hostRoomCode,setHostRoomCode] = useState("");
+  const [listenerRoomCode,setListenerRoomCode] = useState("")
+  const [roomCodes,setRoomCodes] = useState("");
 
   const listAllRooms = async () => {
     const config = {
@@ -59,7 +62,7 @@ export const RoomProvider = ({ children }) => {
       handleLocalStorage("set", "roomId", response.data.id);
       handleLocalStorage("set", "roomName", response.data.name);
       setUserRole("host");
-      handleLocalStorage("set", "role", "host");
+      handleLocalStorage("set", "userRole", "host");
       setRoomId(response.data.id);
       
     } catch (error) {
@@ -83,7 +86,24 @@ export const RoomProvider = ({ children }) => {
     return Promise.resolve(response.data);
   };
 
-  const createRoomCodes = async (room_id, role) => {
+  const createRoomCodes = async (room_id) => {
+    let mgAccessToken = handleLocalStorage("get", "mg-access-token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${mgAccessToken}`,
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await axios.post(
+      `https://api.100ms.live/v2/room-codes/room/${room_id}`,
+      {},
+      config
+    );
+
+    return response.data
+  };
+
+  const createRoomCodesByRole = async (room_id, role) => {
     let mgAccessToken = handleLocalStorage("get", "mg-access-token");
     const config = {
       headers: {
@@ -108,13 +128,21 @@ export const RoomProvider = ({ children }) => {
         roomId,
         roomData,
         description,
+        hostRoomCode,
+        listenerRoomCode,
+        roomCodes,
+        setRoomCodes,
+        setHostRoomCode,
+        setListenerRoomCode,
         setRoomName,
+        setRoomId,
         setDescription,
         setShowModal,
         listAllRooms,
         createRoom,
         getSpecificRoomData,
         createRoomCodes,
+        createRoomCodesByRole,
       }}
     >
       {children}

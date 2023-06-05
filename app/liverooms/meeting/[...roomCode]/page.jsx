@@ -21,6 +21,11 @@ const page = ({ params }) => {
   // let { roomCode,roomId } = params;
  let roomCode = params.roomCode[0];
  let roomId = params.roomCode[1]
+ let role = handleLocalStorage("get", "userRole");
+ if(role == null){
+   handleLocalStorage("set", "userRole","listener");
+
+ }
   console.log(roomCode,roomId,"dynamic route------");
   handleLocalStorage("set", "roomCode", roomCode);
   let room_id = handleLocalStorage("get", "roomId", roomId);
@@ -53,7 +58,12 @@ const page = ({ params }) => {
       rememberDeviceSelection: true, // remember manual device change
       captureNetworkQualityInPreview: false, // whether to measure network score in preview
     };
-    await hmsActions.join(config);
+    try{
+      await hmsActions.join(config);
+    }catch(e){
+      alert("Host has ended the Room!")
+    }
+    
   };
 
   const init = async () => {
@@ -69,7 +79,11 @@ const page = ({ params }) => {
       rememberDeviceSelection: true, // remember manual device change
       captureNetworkQualityInPreview: false, // whether to measure network score in preview
     };
-    await hmsActions.join(config);
+    try{
+      await hmsActions.join(config);
+    }catch(e){
+      alert("This room is not active!")
+    }
   };
 
   function handleBack() {
@@ -90,11 +104,13 @@ const page = ({ params }) => {
     }
   }, [authToken]);
 
-  if (roomState == "Connected" && isConnected) {
+  if (roomState == "Connected") {
     return <CallWrapper></CallWrapper>;
+
   } else if (roomState == "Connecting") {
-    return;
-    <div>Loading...........</div>;
+    console.log("Connecting")
+    return <div>Loading...........</div>;
+
   } else if (isConnected == false && isGuest == null) {
     return (
       <div className="w-full h-full flex justify-center items-center ">

@@ -56,19 +56,25 @@ function Footer(params) {
   const router = useRouter();
   const [time, setTime] = useState();
   const [roomDataObjectId, setRoomDataObjectId] = useState();
-
-  const { roomName, roomData, description } = useRoomContext();
+  const { roomName, roomData, description ,roomCodes,listenerRoomCode,setListenerRoomCode,createRoomCodes} = useRoomContext();
   const { mgAccessToken, deleteDataOnLeave } = useUserContext();
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  let roomCode = handleLocalStorage("get", "roomCode");
+  let room_id = handleLocalStorage("get", "roomId");
 
-  const handleShareLink = () => {
+  const handleShareLink = async() => {
+      let response = await createRoomCodes(room_id);
+    response.data.map(data => {
+      if(data.role == "listener"){
+        console.log(data.code,"listener code");
+        handleLocalStorage("set","listenerRoomCode",data.code)
+      }
+    })
     setOpenSnackBar(true);
     navigator.clipboard.writeText(
-      `http://localhost:3000/liverooms/${room ? room.name : "null"}/${
-        room ? room.id : "null"
-      }`
+      `http://localhost:3000/liverooms/meeting/${handleLocalStorage("get", "listenerRoomCode")}/${room_id}`
     );
   };
 
@@ -117,8 +123,6 @@ function Footer(params) {
   };
 
   const leaveRoom = async () => {
-
-
     await hmsActions.leave();
   };
 
@@ -223,7 +227,7 @@ function Footer(params) {
 
   const options1 = ["Change Name", "Start Rec", "Stop Rec"];
   const options2 = ["Change Name", "aasfdsdaf", "asdferfeve"];
-  console.log(localPeer)
+  console.log(localPeer);
 
   return (
     <div className="space-x-10 w-full h-full flex">
@@ -382,8 +386,12 @@ function Footer(params) {
             {handleLocalStorage("get", "userRole") == "host" ? (
               <div>
                 {/* <MenuItem onClick={handleClose}>Change Name</MenuItem> */}
-                <MenuItem onClick={handleRecording}>Start Recording</MenuItem>
-                <MenuItem onClick={handleRecording}>Stop Recording</MenuItem>
+                {recordingStatus ? (
+                  <MenuItem onClick={handleRecording}>Stop Recording</MenuItem>
+                ) : (
+                  <MenuItem onClick={handleRecording}>Start Recording</MenuItem>
+                )}
+
                 <MenuItem onClick={handleShareLink}>Share Room Link!</MenuItem>
                 <Snackbar
                   open={openSnackBar}
@@ -393,12 +401,7 @@ function Footer(params) {
                   TransitionComponent={TransitionRight}
                 />
               </div>
-            ) : (
-              <div>
-                <MenuItem onClick={handleClose}>Listener Control 1</MenuItem>
-                <MenuItem onClick={handleClose}>Listener Control 2</MenuItem>
-              </div>
-            )}
+            ) : ""}
           </Menu>
         </div>
       </div>
