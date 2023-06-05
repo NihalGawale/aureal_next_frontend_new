@@ -13,7 +13,7 @@ const ShareRoomUrl = ({ listenerRoomCode, roomId }) => {
   const handleClick = () => {
     setOpen(true);
     navigator.clipboard.writeText(
-      `http://localhost:3000/liverooms/meeting/${listenerRoomCode}/${roomId}`
+      `https://aureal-next-frontend-new.vercel.app/liverooms/meeting/${listenerRoomCode}/${roomId}`
     );
   };
 

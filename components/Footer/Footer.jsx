@@ -74,7 +74,7 @@ function Footer(params) {
     })
     setOpenSnackBar(true);
     navigator.clipboard.writeText(
-      `http://localhost:3000/liverooms/meeting/${handleLocalStorage("get", "listenerRoomCode")}/${room_id}`
+      `https://aureal-next-frontend-new.vercel.app/liverooms/meeting/${handleLocalStorage("get", "listenerRoomCode")}/${room_id}`
     );
   };
 
