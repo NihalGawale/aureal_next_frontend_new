@@ -8,14 +8,19 @@ import { useRouter } from "next/navigation";
 function ListRooms({ rooms }) {
   let enabledRooms = [];
 
-  const { setDescription } = useRoomContext();
+  const { setDescription ,setRoomName} = useRoomContext();
   const { handleLocalStorage } = useUserContext();
   const router = useRouter();
 
   function handleCardClick(room) {
     handleLocalStorage("set", "roomId", room.id);
     handleLocalStorage("set", "roomName", room.name);
+    console.log("Check Values on SET ROOM ID AND NAME")
+    console.log(handleLocalStorage("get", "roomId"))
+    console.log(handleLocalStorage("get", "roomName"))
+    setRoomName(room.name)
     setDescription(room.description);
+    handleLocalStorage("set", "userRole", "listener")
     router.push("/liverooms/preview");
   }
 

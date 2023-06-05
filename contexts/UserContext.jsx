@@ -28,18 +28,15 @@ export const UserProvider = ({ children }) => {
     let userData = response.data.prev_user;
     handleLocalStorage("set", "userName", userData.hive_username);
     handleLocalStorage("set", "userImage", userData.img);
-    console.log("this line executed");
   };
 
   const checkAndGetToken = (param, roomId, role) => {
     if (param === "mg-access-token") {
-      console.log("You are here");
-
       const localMgAccessToken = handleLocalStorage("get", "mg-access-token");
       if (checkToken(localMgAccessToken)) {
         console.log("check token func return true");
         fetchMgAccessToken().then((response) => {
-          console.log(response, "fetchMgAccessToken called");
+          // console.log(response, "fetchMgAccessToken called");
           setMgAccessToken(response);
         });
       } else {
@@ -52,8 +49,6 @@ export const UserProvider = ({ children }) => {
       if (checkToken(localAuthToken)) {
         console.log("check token func return true for auth token");
         fetchHmsAuthToken(roomId, role).then((response) => {
-          console.log(response, "fetchHmsAuthToken called");
-
           return response;
         });
       } else {
@@ -65,7 +60,6 @@ export const UserProvider = ({ children }) => {
   };
 
   const checkToken = (token) => {
-    console.log(token, "check-token");
     if (token == null || undefined || "") {
       return true;
     }
@@ -85,12 +79,13 @@ export const UserProvider = ({ children }) => {
     const response = await axios.post(
       `https://api.aureal.one/public/getHMSToken?user_id=` + userData.id
     );
-    console.log(response.data, "mg-access-token");
+
     handleLocalStorage("set", "mg-access-token", response.data);
     return Promise.resolve(response.data);
   };
 
   const fetchHmsAuthToken = async (roomId, role) => {
+    console.log(roomId);
     const response = await axios.post(
       "https://api.aureal.one/public/getHMSAuthToken",
       {
@@ -99,16 +94,20 @@ export const UserProvider = ({ children }) => {
         role: role || "listener",
       }
     );
-    console.log(response.data, "auth-token");
+
+    console.log(response.data, "Checking inside the function HMSAUTH");
     handleLocalStorage("set", "auth-token", response.data);
     setAuthToken(response.data);
     return Promise.resolve(response.data);
   };
 
   const deleteDataOnLeave = () => {
-    handleLocalStorage("delete", "auth-token");
+    handleLocalStorage("delete", "authToken");
     handleLocalStorage("delete", "roomId");
     handleLocalStorage("delete", "roomName");
+    handleLocalStorage("delete", "role");
+    handleLocalStorage("delete", "roomCode");
+    handleLocalStorage("delete", "role");
   };
 
   const handleLocalStorage = (requestType, key, value) => {

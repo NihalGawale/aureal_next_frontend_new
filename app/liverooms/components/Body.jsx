@@ -7,6 +7,7 @@ import ListRooms from "@/components/ListAllRooms/ListRooms";
 import { useUserContext } from "@/contexts/UserContext";
 
 const Body = () => {
+  
   const [rooms, setRooms] = useState([]);
   const { listAllRooms } = useRoomContext();
   const { mgAccessToken, checkAndGetToken } = useUserContext();
@@ -22,7 +23,7 @@ const Body = () => {
     resp.map((room) => {
       if (room.enabled === true) enabledRooms.push(room);
     });
-    console.log(enabledRooms.length,"enabledRooms");
+    // console.log(enabledRooms.length,"enabledRooms");
     setRooms(enabledRooms);
   }
 
@@ -42,7 +43,7 @@ const Body = () => {
       }
     };
     init();
-  }, [mgAccessToken]);
+  }, [mgAccessToken ]);
 
   return (
     <div id="body" className="w-full h-[82%]  flex items-center">

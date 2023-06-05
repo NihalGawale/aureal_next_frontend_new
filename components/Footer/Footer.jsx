@@ -22,7 +22,7 @@ import axios from "axios";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 // import "../../styles/global.css";
 import { useRoomContext } from "@/contexts/RoomContext";
-import Slide from '@mui/material/Slide';
+import Slide from "@mui/material/Slide";
 import { useUserContext } from "@/contexts/UserContext";
 import {
   Divider,
@@ -34,12 +34,12 @@ import {
   Zoom,
 } from "@mui/material";
 import Notification from "../Notification/Notification";
+import { Route } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 
 function Footer(params) {
   const { host, room } = params;
-  console.log(host, ".............");
-  console.log(room, "room footer");
-  console.log(room.recording.browser.running, "room footer");
+
   const { handleLocalStorage } = useUserContext();
   const [recordingStatus, setRecordingStatus] = useState(false);
   const { isLocalAudioEnabled, isLocalVideoEnabled, toggleAudio, toggleVideo } =
@@ -48,29 +48,33 @@ function Footer(params) {
   const role = useHMSStore(selectLocalPeerRole);
   const permissions = useHMSStore(selectPermissions);
 
-  console.log(role, permissions, "permissions-----");
-
   const hmsActions = useHMSActions();
   const localPeer = useHMSStore(selectLocalPeer);
   const currentSessionId = useHMSStore(selectSessionId);
   if (typeof window !== "undefined") {
   }
-
+  const router = useRouter();
   const [time, setTime] = useState();
   const [roomDataObjectId, setRoomDataObjectId] = useState();
-
-  const { roomName, roomData, description } = useRoomContext();
+  const { roomName, roomData, description ,roomCodes,listenerRoomCode,setListenerRoomCode,createRoomCodes} = useRoomContext();
   const { mgAccessToken, deleteDataOnLeave } = useUserContext();
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  let roomCode = handleLocalStorage("get", "roomCode");
+  let room_id = handleLocalStorage("get", "roomId");
 
-  const handleShareLink = () => {
+  const handleShareLink = async() => {
+      let response = await createRoomCodes(room_id);
+    response.data.map(data => {
+      if(data.role == "listener"){
+        console.log(data.code,"listener code");
+        handleLocalStorage("set","listenerRoomCode",data.code)
+      }
+    })
     setOpenSnackBar(true);
     navigator.clipboard.writeText(
-      `http://localhost:3000/liverooms/${room ? room.name : "null"}/${
-        room ? room.id : "null"
-      }`
+      `http://localhost:3000/liverooms/meeting/${handleLocalStorage("get", "listenerRoomCode")}/${room_id}`
     );
   };
 
@@ -80,7 +84,7 @@ function Footer(params) {
       const reason = "Host ended the room";
 
       if (roomDataObjectId) {
-        console.log(roomData, "end room func called");
+        // console.log(roomData, "end room func called");
         const roomCreated = await axios.post(
           `https://api.aureal.one/public/create100msRoom`,
           {
@@ -98,9 +102,20 @@ function Footer(params) {
         );
       }
 
-      deleteDataOnLeave();
+      handleLocalStorage("delete", "authToken");
+      handleLocalStorage("delete", "roomId");
+      handleLocalStorage("delete", "roomName");
+      handleLocalStorage("delete", "role");
+      handleLocalStorage("delete", "roomCode");
+      handleLocalStorage("delete", "role");
+
       await hmsActions.endRoom(lock, reason);
       console.log("rooom ended");
+      router.push(
+        `/liverooms?user_id=${
+          handleLocalStorage("get", "user_id") || "guest-user"
+        }`
+      );
     } catch (error) {
       // Permission denied or not connected to room
       console.error(error);
@@ -108,7 +123,6 @@ function Footer(params) {
   };
 
   const leaveRoom = async () => {
-    deleteDataOnLeave();
     await hmsActions.leave();
   };
 
@@ -132,7 +146,12 @@ function Footer(params) {
         config
       );
       console.log("Room is disabled @@@@@@");
-      deleteDataOnLeave();
+      handleLocalStorage("delete", "authToken");
+      handleLocalStorage("delete", "roomId");
+      handleLocalStorage("delete", "roomName");
+      handleLocalStorage("delete", "role");
+      handleLocalStorage("delete", "roomCode");
+      handleLocalStorage("delete", "role");
       return response;
     } catch (err) {
       console.log("Room Create Error: " + err);
@@ -147,7 +166,7 @@ function Footer(params) {
         mg_access_token: handleLocalStorage("get", "mg-access-token"),
       }
     );
-    console.log(response);
+    // console.log(response);
   };
 
   const stop = async () => {
@@ -158,7 +177,7 @@ function Footer(params) {
         mg_access_token: handleLocalStorage("get", "mg-access-token"),
       }
     );
-    console.log(response.data);
+    // console.log(response.data);
     const objectId = await response.data.roomDataObjectId;
     setRoomDataObjectId(objectId);
   };
@@ -185,7 +204,6 @@ function Footer(params) {
   function TransitionRight(props) {
     return <Slide {...props} direction="right" />;
   }
-  
 
   let date;
   let hours;
@@ -209,6 +227,7 @@ function Footer(params) {
 
   const options1 = ["Change Name", "Start Rec", "Stop Rec"];
   const options2 = ["Change Name", "aasfdsdaf", "asdferfeve"];
+  console.log(localPeer);
 
   return (
     <div className="space-x-10 w-full h-full flex">
@@ -217,11 +236,15 @@ function Footer(params) {
           <div className=" flex items-center justify-end w-1/2">{time}</div>
           <div className=" flex  items-center justify-end  w-1/2 text-[#ea3535] ">
             {room.recording.browser.running == true ? (
-               <Tooltip title="This Room is being recorded by Host!" placement="top" arrow>
-              <div className="flex  items-center justify-end py-1 px-2 gap-x-[2px] bg-[#1d1b1b] rounded-sm">
-                <RadioButtonCheckedIcon className="text-lg animate-pulse" />
-                <p>Rec</p>
-              </div>
+              <Tooltip
+                title="This Room is being recorded by Host!"
+                placement="top"
+                arrow
+              >
+                <div className="flex  items-center justify-end py-1 px-2 gap-x-[2px] bg-[#1d1b1b] rounded-sm">
+                  <RadioButtonCheckedIcon className="text-lg animate-pulse" />
+                  <p>Rec</p>
+                </div>
               </Tooltip>
             ) : (
               ""
@@ -301,17 +324,12 @@ function Footer(params) {
         {localPeer && localPeer.roleName != "host" ? (
           <div className="w-[45px] h-[45px] bg-[#1d1b1b] rounded-full flex items-center justify-center">
             <Tooltip title="Leave Room" placement="top" arrow>
-              <button>
-                <Link
-                  href={`/liverooms?user_id=${
-                    handleLocalStorage("get", "user_id") || "guest-user"
-                  }`}
-                  onClick={() => {
-                    leaveRoom();
-                  }}
-                >
-                  <ExitToAppIcon className="text-red-600" />
-                </Link>
+              <button
+                onClick={() => {
+                  leaveRoom();
+                }}
+              >
+                <ExitToAppIcon className="text-red-600" />
               </button>
             </Tooltip>
           </div>
@@ -319,36 +337,24 @@ function Footer(params) {
           <>
             <div className="w-[45px] h-[45px] bg-[#1d1b1b] rounded-full flex items-center justify-center ">
               <Tooltip title="Leave Room" placement="top" arrow>
-                <button>
-                  <Link
-                    href={`/liverooms?user_id=${handleLocalStorage(
-                      "get",
-                      "user_id"
-                    )}`}
-                    onClick={() => {
-                      leave();
-                    }}
-                  >
-                    <ExitToAppIcon className="text-red-600" />
-                  </Link>
+                <button
+                  onClick={() => {
+                    leaveRoom();
+                  }}
+                >
+                  <ExitToAppIcon className="text-red-600" />
                 </button>
               </Tooltip>
             </div>
             <div className="w-[45px] h-[45px] bg-[#1d1b1b] rounded-full flex items-center justify-center ">
               <Tooltip title="End Room" placement="top" arrow>
-                <button>
-                  <Link
-                    href={`/liverooms?user_id=${handleLocalStorage(
-                      "get",
-                      "user_id"
-                    )}`}
-                    onClick={() => {
-                      endRoom();
-                      disableRoom();
-                    }}
-                  >
-                    <CallEndIcon className="text-red-600" />
-                  </Link>
+                <button
+                  onClick={() => {
+                    endRoom();
+                    disableRoom();
+                  }}
+                >
+                  <CallEndIcon className="text-red-600" />
                 </button>
               </Tooltip>
             </div>
@@ -380,8 +386,12 @@ function Footer(params) {
             {handleLocalStorage("get", "userRole") == "host" ? (
               <div>
                 {/* <MenuItem onClick={handleClose}>Change Name</MenuItem> */}
-                <MenuItem onClick={handleRecording}>Start Recording</MenuItem>
-                <MenuItem onClick={handleRecording}>Stop Recording</MenuItem>
+                {recordingStatus ? (
+                  <MenuItem onClick={handleRecording}>Stop Recording</MenuItem>
+                ) : (
+                  <MenuItem onClick={handleRecording}>Start Recording</MenuItem>
+                )}
+
                 <MenuItem onClick={handleShareLink}>Share Room Link!</MenuItem>
                 <Snackbar
                   open={openSnackBar}
@@ -391,12 +401,7 @@ function Footer(params) {
                   TransitionComponent={TransitionRight}
                 />
               </div>
-            ) : (
-              <div>
-                <MenuItem onClick={handleClose}>Listener Control 1</MenuItem>
-                <MenuItem onClick={handleClose}>Listener Control 2</MenuItem>
-              </div>
-            )}
+            ) : ""}
           </Menu>
         </div>
       </div>
