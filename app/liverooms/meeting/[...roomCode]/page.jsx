@@ -39,6 +39,9 @@ const page = ({ params }) => {
 
   let userName = handleLocalStorage("get", "userName");
   let userId = handleLocalStorage("get", "user_id");
+  if(!userId){
+    handleLocalStorage("set","user_id","1234");
+  }
   let authToken;
 
   const pushToPreview = () => {
@@ -77,7 +80,7 @@ const page = ({ params }) => {
         isAudioMuted: true,
         isVideoMuted: false,
       },
-      metaData: JSON.stringify({ userImage: userData?.img || "",  userId : userData.id }),
+      metaData: JSON.stringify({ userImage: userData?.img || "",  user_id: userData.id || "1234"}),
       rememberDeviceSelection: true, // remember manual device change
       captureNetworkQualityInPreview: false, // whether to measure network score in preview
     };

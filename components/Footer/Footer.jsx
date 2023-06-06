@@ -109,6 +109,7 @@ function Footer(params) {
       handleLocalStorage("delete", "roomName");
       handleLocalStorage("delete", "userRole");
       handleLocalStorage("delete", "roomCode");
+      handleLocalStorage("delete", "listenerRoomCode");
 
       await hmsActions.endRoom(lock, reason);
       router.push(
