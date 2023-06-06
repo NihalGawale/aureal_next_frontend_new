@@ -39,7 +39,8 @@ const page = ({ params }) => {
 
   let userName = handleLocalStorage("get", "userName");
   let userId = handleLocalStorage("get", "user_id");
-  if(!userId){
+  console.log(userId,"userId checking for guest");
+  if(userId == null){
     handleLocalStorage("set","user_id","1234");
   }
   let authToken;
