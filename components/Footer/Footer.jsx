@@ -59,7 +59,8 @@ function Footer(params) {
   const host = useHMSStore(selectPeersByRole("host"))[0];
   let hostData = "";
   if (host) {
-  hostData = JSON.parse(host.metadata);
+    hostData = JSON.parse(host.metadata);
+    console.log(hostData,"host data");
   }
   let roomCode = handleLocalStorage("get", "roomCode");
   let room_id = handleLocalStorage("get", "roomId");
@@ -73,8 +74,14 @@ function Footer(params) {
       }
     });
     setOpenSnackBar(true);
+    // navigator.clipboard.writeText(
+    //   `https://aureal-next-frontend-new.vercel.app/liverooms/meeting/${handleLocalStorage(
+    //     "get",
+    //     "listenerRoomCode"
+    //   )}/${room_id}`
+    // );
     navigator.clipboard.writeText(
-      `https://aureal-next-frontend-new.vercel.app/liverooms/meeting/${handleLocalStorage(
+      `http:localhost:3000/liverooms/meeting/${handleLocalStorage(
         "get",
         "listenerRoomCode"
       )}/${room_id}`
@@ -95,7 +102,7 @@ function Footer(params) {
               sessionId: roomJoined.sessionId,
               title: roomJoined.name,
               description: description,
-              host: hostData.userId,
+              host: hostData.user_id,
               createdon: roomJoined.startedAt,
               roomDataObjectId: handleLocalStorage("get", "roomDataObjectId"),
               mg_access_token: handleLocalStorage("get", "mg-access-token"),

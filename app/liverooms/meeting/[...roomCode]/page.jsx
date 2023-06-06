@@ -33,16 +33,17 @@ const page = ({ params }) => {
   if(room_id == null) {
     handleLocalStorage("set", "roomId", roomId);
   }
-
-  const hmsActions = useHMSActions();
-  const router = useRouter();
-
-  let userName = handleLocalStorage("get", "userName");
   let userId = handleLocalStorage("get", "user_id");
   console.log(userId,"userId checking for guest");
   if(userId == null){
     handleLocalStorage("set","user_id","1234");
   }
+
+  const hmsActions = useHMSActions();
+  const router = useRouter();
+
+  let userName = handleLocalStorage("get", "userName");
+ 
   let authToken;
 
   const pushToPreview = () => {
@@ -81,7 +82,7 @@ const page = ({ params }) => {
         isAudioMuted: true,
         isVideoMuted: false,
       },
-      metaData: JSON.stringify({ userImage: userData?.img || "",  user_id: userData.id || "1234"}),
+      metaData: JSON.stringify({ userImage: userData?.img || "",  user_id: userData.id ||  handleLocalStorage("get", "user_id")}),
       rememberDeviceSelection: true, // remember manual device change
       captureNetworkQualityInPreview: false, // whether to measure network score in preview
     };
