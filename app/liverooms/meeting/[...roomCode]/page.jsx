@@ -55,7 +55,7 @@ const page = ({ params }) => {
       },
       metaData: JSON.stringify({
         userImage: handleLocalStorage("get", "userImage") || "",
-        userId : userId
+        userId : handleLocalStorage("get", "user_id") 
       }),
       rememberDeviceSelection: true, // remember manual device change
       captureNetworkQualityInPreview: false, // whether to measure network score in preview
@@ -77,7 +77,7 @@ const page = ({ params }) => {
         isAudioMuted: true,
         isVideoMuted: false,
       },
-      metaData: JSON.stringify({ userImage: userData?.img || "",  userId : userId }),
+      metaData: JSON.stringify({ userImage: userData?.img || "",  userId : userData.id }),
       rememberDeviceSelection: true, // remember manual device change
       captureNetworkQualityInPreview: false, // whether to measure network score in preview
     };
