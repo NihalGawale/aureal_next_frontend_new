@@ -38,6 +38,7 @@ const page = ({ params }) => {
   const router = useRouter();
 
   let userName = handleLocalStorage("get", "userName");
+  let userId = handleLocalStorage("get", "user_id");
   let authToken;
 
   const pushToPreview = () => {
@@ -54,6 +55,7 @@ const page = ({ params }) => {
       },
       metaData: JSON.stringify({
         userImage: handleLocalStorage("get", "userImage") || "",
+        userId : userId
       }),
       rememberDeviceSelection: true, // remember manual device change
       captureNetworkQualityInPreview: false, // whether to measure network score in preview
@@ -75,7 +77,7 @@ const page = ({ params }) => {
         isAudioMuted: true,
         isVideoMuted: false,
       },
-      metaData: JSON.stringify({ userImage: userData?.img || "" }),
+      metaData: JSON.stringify({ userImage: userData?.img || "",  userId : userId }),
       rememberDeviceSelection: true, // remember manual device change
       captureNetworkQualityInPreview: false, // whether to measure network score in preview
     };

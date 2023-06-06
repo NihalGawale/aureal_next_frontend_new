@@ -23,7 +23,7 @@ const Preview = () => {
     useUserContext();
   const isInPreview = useHMSStore(selectIsInPreview);
   const {
-    createRoomCodesByRole,
+    
     createRoomCodes,
     hostRoomCode,
     listenerRoomCode,
@@ -51,14 +51,17 @@ const Preview = () => {
 
   async function init() {
     let room_id = handleLocalStorage("get", "roomId");
-    setRoomId(room_id);
     let room_name = handleLocalStorage("get", "roomName");
     let role = handleLocalStorage("get", "userRole");
     if (role == null) {
       handleLocalStorage("set", "userRole", "listener");
     }
     let roomCode = handleLocalStorage("get", "roomCode");
-    console.log(room_id, room_name, role, "----------" );
+    console.log(room_id, room_name, role, "----------");
+
+    if (mgAccessToken == undefined) {
+      checkAndGetToken("mg-access-token", room_id);
+    }
     if (roomCode == null) {
       response = await createRoomCodes(room_id);
       // handleLocalStorage("set", "roomCodes", response.data);
@@ -68,25 +71,9 @@ const Preview = () => {
         response.data.map((data) => {
           if (data.role == role) {
             handleLocalStorage("set", "roomCode", data.code);
-            if (role == "host") {
-              setHostRoomCode(data.code);
-            } else if (role == "listener") {
-              setListenerRoomCode(data.code);
-            }
           }
         });
       }
-    }
-    // if (roomCode == null) {
-    //   console.log("Generating Room Code");
-    //   response = await createRoomCodesByRole(room_id, role);
-    //   console.log(response, "Room Codes on Preview");
-    //   // Code as per user role
-    //   handleLocalStorage("set", "roomCode", response.code);
-    //   roomCode = response.code;
-    // }
-    if (mgAccessToken == undefined) {
-      checkAndGetToken("mg-access-token", room_id);
     }
     if (role == "host") {
       setMeetingUrl(
@@ -97,6 +84,7 @@ const Preview = () => {
         `/liverooms/meeting/${handleLocalStorage("get", "roomCode")}/${room_id}`
       );
     }
+
 
     if (role == "host") {
       console.log("requesting auth token");
@@ -112,7 +100,7 @@ const Preview = () => {
       console.log(token);
       handleLocalStorage("set", "authToken", token);
     }
-
+   
     const config = {
       userName: userName,
       authToken: token, // client-side token generated from your token service
@@ -188,8 +176,8 @@ const Preview = () => {
         </div>
       </div>
     );
-  }else{
-    return <div>Loading...</div>
+  } else {
+    return <div>Loading...</div>;
   }
 };
 

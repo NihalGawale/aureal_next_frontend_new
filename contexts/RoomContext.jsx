@@ -19,9 +19,9 @@ export const RoomProvider = ({ children }) => {
   const [roomId, setRoomId] = useState("");
   const [roomData, setRoomData] = useState();
   const router = useRouter();
-  const [hostRoomCode,setHostRoomCode] = useState("");
-  const [listenerRoomCode,setListenerRoomCode] = useState("")
-  const [roomCodes,setRoomCodes] = useState("");
+  const [hostRoomCode, setHostRoomCode] = useState("");
+  const [listenerRoomCode, setListenerRoomCode] = useState("");
+  const [roomCodes, setRoomCodes] = useState("");
 
   const listAllRooms = async () => {
     const config = {
@@ -61,10 +61,8 @@ export const RoomProvider = ({ children }) => {
       setRoomData(response.data);
       handleLocalStorage("set", "roomId", response.data.id);
       handleLocalStorage("set", "roomName", response.data.name);
-      setUserRole("host");
+
       handleLocalStorage("set", "userRole", "host");
-      setRoomId(response.data.id);
-      
     } catch (error) {
       console.log("Error creating Room");
     }
@@ -100,24 +98,7 @@ export const RoomProvider = ({ children }) => {
       config
     );
 
-    return response.data
-  };
-
-  const createRoomCodesByRole = async (room_id, role) => {
-    let mgAccessToken = handleLocalStorage("get", "mg-access-token");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${mgAccessToken}`,
-        "Content-Type": "application/json",
-      },
-    };
-    const response = await axios.post(
-      `https://api.100ms.live/v2/room-codes/room/${room_id}/role/${role}`,
-      {},
-      config
-    );
-
-    return response.data
+    return response.data;
   };
 
   return (
@@ -141,8 +122,7 @@ export const RoomProvider = ({ children }) => {
         listAllRooms,
         createRoom,
         getSpecificRoomData,
-        createRoomCodes,
-        createRoomCodesByRole,
+        createRoomCodes
       }}
     >
       {children}

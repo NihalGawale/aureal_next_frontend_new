@@ -6,6 +6,8 @@ import {
   selectSessionId,
   selectLocalPeerRole,
   selectPermissions,
+  selectRoom,
+  selectPeersByRole,
 } from "@100mslive/react-sdk";
 import Link from "next/link";
 import Menu from "@mui/material/Menu";
@@ -38,43 +40,41 @@ import { Route } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 
 function Footer(params) {
-  const { host, room } = params;
+  const { room } = params;
 
   const { handleLocalStorage } = useUserContext();
   const [recordingStatus, setRecordingStatus] = useState(false);
   const { isLocalAudioEnabled, isLocalVideoEnabled, toggleAudio, toggleVideo } =
     useAVToggle();
-
-  const role = useHMSStore(selectLocalPeerRole);
-  const permissions = useHMSStore(selectPermissions);
-
   const hmsActions = useHMSActions();
   const localPeer = useHMSStore(selectLocalPeer);
-  const currentSessionId = useHMSStore(selectSessionId);
-  if (typeof window !== "undefined") {
-  }
   const router = useRouter();
   const [time, setTime] = useState();
-  const [roomDataObjectId, setRoomDataObjectId] = useState();
-  const { roomName, roomData, description ,roomCodes,listenerRoomCode,setListenerRoomCode,createRoomCodes} = useRoomContext();
-  const { mgAccessToken, deleteDataOnLeave } = useUserContext();
+
+  const { roomData, description, createRoomCodes } = useRoomContext();
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const roomJoined = useHMSStore(selectRoom);
   const open = Boolean(anchorEl);
+  const host = useHMSStore(selectPeersByRole("host"))[0];
+  const hostData = JSON.parse(host.metadata);
   let roomCode = handleLocalStorage("get", "roomCode");
   let room_id = handleLocalStorage("get", "roomId");
 
-  const handleShareLink = async() => {
-      let response = await createRoomCodes(room_id);
-    response.data.map(data => {
-      if(data.role == "listener"){
-        console.log(data.code,"listener code");
-        handleLocalStorage("set","listenerRoomCode",data.code)
+  const handleShareLink = async () => {
+    let response = await createRoomCodes(room_id);
+    response.data.map((data) => {
+      if (data.role == "listener") {
+        console.log(data.code, "listener code");
+        handleLocalStorage("set", "listenerRoomCode", data.code);
       }
-    })
+    });
     setOpenSnackBar(true);
     navigator.clipboard.writeText(
-      `https://aureal-next-frontend-new.vercel.app/liverooms/meeting/${handleLocalStorage("get", "listenerRoomCode")}/${room_id}`
+      `https://aureal-next-frontend-new.vercel.app/liverooms/meeting/${handleLocalStorage(
+        "get",
+        "listenerRoomCode"
+      )}/${room_id}`
     );
   };
 
@@ -83,20 +83,19 @@ function Footer(params) {
       const lock = false; // set to true to disallow rejoins
       const reason = "Host ended the room";
 
-      if (roomDataObjectId) {
-        // console.log(roomData, "end room func called");
+      if (handleLocalStorage("get", "roomDataObjectId")) {
         const roomCreated = await axios.post(
           `https://api.aureal.one/public/create100msRoom`,
           {
             data: {
-              roomId: roomData.id,
-              sessionId: room.sessionId,
-              title: roomData.name,
+              roomId: roomJoined.id,
+              sessionId: roomJoined.sessionId,
+              title: roomJoined.name,
               description: description,
-              host: host.customerUserId,
-              createdon: room.startedAt,
-              roomDataObjectId: roomDataObjectId,
-              mg_access_token: mgAccessToken,
+              host: hostData.userId,
+              createdon: roomJoined.startedAt,
+              roomDataObjectId: handleLocalStorage("get", "roomDataObjectId"),
+              mg_access_token: handleLocalStorage("get", "mg-access-token"),
             },
           }
         );
@@ -110,7 +109,6 @@ function Footer(params) {
       handleLocalStorage("delete", "role");
 
       await hmsActions.endRoom(lock, reason);
-      console.log("rooom ended");
       router.push(
         `/liverooms?user_id=${
           handleLocalStorage("get", "user_id") || "guest-user"
@@ -145,7 +143,6 @@ function Footer(params) {
         data,
         config
       );
-      console.log("Room is disabled @@@@@@");
       handleLocalStorage("delete", "authToken");
       handleLocalStorage("delete", "roomId");
       handleLocalStorage("delete", "roomName");
@@ -166,7 +163,6 @@ function Footer(params) {
         mg_access_token: handleLocalStorage("get", "mg-access-token"),
       }
     );
-    // console.log(response);
   };
 
   const stop = async () => {
@@ -177,9 +173,12 @@ function Footer(params) {
         mg_access_token: handleLocalStorage("get", "mg-access-token"),
       }
     );
-    // console.log(response.data);
     const objectId = await response.data.roomDataObjectId;
-    setRoomDataObjectId(objectId);
+    handleLocalStorage(
+      "set",
+      "roomDataObjectId",
+      response.data.roomDataObjectId
+    );
   };
 
   const handleClick = (event) => {
@@ -194,7 +193,6 @@ function Footer(params) {
       await start();
       setRecordingStatus(true);
       handleClose();
-      // console.log(peers);
     } else {
       await stop();
       setRecordingStatus(false);
@@ -227,8 +225,6 @@ function Footer(params) {
 
   const options1 = ["Change Name", "Start Rec", "Stop Rec"];
   const options2 = ["Change Name", "aasfdsdaf", "asdferfeve"];
-  console.log(localPeer);
-
   return (
     <div className="space-x-10 w-full h-full flex">
       <div className="w-1/2 flex">
@@ -401,7 +397,9 @@ function Footer(params) {
                   TransitionComponent={TransitionRight}
                 />
               </div>
-            ) : ""}
+            ) : (
+              ""
+            )}
           </Menu>
         </div>
       </div>

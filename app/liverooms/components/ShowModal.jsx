@@ -33,7 +33,7 @@ const ShowModal = () => {
     } else if (!description) {
       alert("Description is required");
     }else{
-      createRoom();
+     await createRoom();
       setShowModal(false);
       router.push(`/liverooms/preview`);
     }

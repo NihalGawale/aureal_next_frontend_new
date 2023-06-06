@@ -105,9 +105,9 @@ export const UserProvider = ({ children }) => {
     handleLocalStorage("delete", "authToken");
     handleLocalStorage("delete", "roomId");
     handleLocalStorage("delete", "roomName");
-    handleLocalStorage("delete", "role");
+    handleLocalStorage("delete", "roomDataObjectId");
     handleLocalStorage("delete", "roomCode");
-    handleLocalStorage("delete", "role");
+    handleLocalStorage("delete", "userRole");
   };
 
   const handleLocalStorage = (requestType, key, value) => {
