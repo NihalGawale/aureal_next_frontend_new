@@ -57,7 +57,11 @@ function Footer(params) {
   const roomJoined = useHMSStore(selectRoom);
   const open = Boolean(anchorEl);
   const host = useHMSStore(selectPeersByRole("host"))[0];
-  const hostData = JSON.parse(host.metadata);
+  let hostData = "";
+  if (host) {
+    hostData = JSON.parse(host.metadata);
+    console.log(hostData,"host data");
+  }
   let roomCode = handleLocalStorage("get", "roomCode");
   let room_id = handleLocalStorage("get", "roomId");
 
@@ -76,6 +80,12 @@ function Footer(params) {
         "listenerRoomCode"
       )}/${room_id}`
     );
+    // navigator.clipboard.writeText(
+    //   `http:localhost:3000/liverooms/meeting/${handleLocalStorage(
+    //     "get",
+    //     "listenerRoomCode"
+    //   )}/${room_id}`
+    // );
   };
 
   const endRoom = async () => {
@@ -92,7 +102,7 @@ function Footer(params) {
               sessionId: roomJoined.sessionId,
               title: roomJoined.name,
               description: description,
-              host: hostData.userId,
+              host: hostData.user_id,
               createdon: roomJoined.startedAt,
               roomDataObjectId: handleLocalStorage("get", "roomDataObjectId"),
               mg_access_token: handleLocalStorage("get", "mg-access-token"),
@@ -104,9 +114,9 @@ function Footer(params) {
       handleLocalStorage("delete", "authToken");
       handleLocalStorage("delete", "roomId");
       handleLocalStorage("delete", "roomName");
-      handleLocalStorage("delete", "role");
+      handleLocalStorage("delete", "userRole");
       handleLocalStorage("delete", "roomCode");
-      handleLocalStorage("delete", "role");
+      handleLocalStorage("delete", "listenerRoomCode");
 
       await hmsActions.endRoom(lock, reason);
       router.push(
