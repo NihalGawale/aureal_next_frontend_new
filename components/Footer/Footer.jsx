@@ -57,7 +57,10 @@ function Footer(params) {
   const roomJoined = useHMSStore(selectRoom);
   const open = Boolean(anchorEl);
   const host = useHMSStore(selectPeersByRole("host"))[0];
-  const hostData = JSON.parse(host.metadata);
+  let hostData = "";
+  if (host) {
+  hostData = JSON.parse(host.metadata);
+  }
   let roomCode = handleLocalStorage("get", "roomCode");
   let room_id = handleLocalStorage("get", "roomId");
 
@@ -104,9 +107,8 @@ function Footer(params) {
       handleLocalStorage("delete", "authToken");
       handleLocalStorage("delete", "roomId");
       handleLocalStorage("delete", "roomName");
-      handleLocalStorage("delete", "role");
+      handleLocalStorage("delete", "userRole");
       handleLocalStorage("delete", "roomCode");
-      handleLocalStorage("delete", "role");
 
       await hmsActions.endRoom(lock, reason);
       router.push(
