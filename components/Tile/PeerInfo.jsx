@@ -12,7 +12,6 @@ import React, { useEffect } from "react";
 import VideoTile from "./VideoTile";
 import Avatar from "@mui/material/Avatar";
 
-
 const PeerInfo = ({ peer }) => {
   let level = useHMSStore(selectPeerAudioByID(peer.id)) || 0;
 
@@ -22,10 +21,9 @@ const PeerInfo = ({ peer }) => {
 
   const peerMetadata = JSON.parse(peer.metadata);
 
-
   if (level > 10) {
     level = 10;
-    console.log(level,"audio-level");
+    console.log(level, "audio-level");
   }
 
   function stringToColor(string) {
@@ -52,59 +50,62 @@ const PeerInfo = ({ peer }) => {
     return {
       sx: {
         bgcolor: stringToColor(name),
+        width: 60,
+        height: 60,
+        fontSize: "24px",
+        fontWeight: 600,
       },
       children: `${name[0]}`,
     };
   }
 
   return (
-    
-      <div
-        id={`${peer.customerUserId}`}
-        className=" w-[100%] h-[100%] rounded-md overflow-hidden flex  border-[3px] border-transparent justify-center items-center relative "
-        style={{
-          // boxShadow: `0px 0px ${level || 0 / 1}px #3d5afe`,
-           borderColor: `${level >= 10 ? "#3d5afe" : ""} `,
-        }}
-      >
-        <div className=" absolute top-3 right-4 z-20">
-          {audioEnabled ? (
-            <MicIcon className="text-[#1f4eb4] " />
+    <div
+      id={`${peer.customerUserId}`}
+      className=" w-[100%] h-[100%] rounded-md overflow-hidden flex  border-[3px] border-transparent justify-center items-center relative "
+      style={{
+        // boxShadow: `0px 0px ${level || 0 / 1}px #3d5afe`,
+        borderColor: `${level >= 10 ? "#3d5afe" : ""} `,
+      }}
+    >
+      <div className=" absolute top-3 right-4 z-20">
+        {audioEnabled ? (
+          <MicIcon className="text-[#1f4eb4] " />
+        ) : (
+          <MicOffTwoToneIcon className="text-red-600" />
+        )}
+      </div>
+      {videoEnabled ? (
+        <VideoTile peer={peer} />
+      ) : (
+        <div className="w-[100%] h-[100%]  rounded-md flex items-center justify-center bg-[#161515]">
+          {peerMetadata.userImage ? (
+            <Image
+              src={peerMetadata.userImage}
+              alt="userImage"
+              width={60}
+              height={60}
+              className="rounded-full"
+            />
           ) : (
-            <MicOffTwoToneIcon className="text-red-600" />
+            <Avatar
+              {...stringAvatar(`${peer.name}`)}
+              // className="w-[60px] h-[60px] font-semibold text-2xl"
+            
+            />
           )}
         </div>
-        {videoEnabled ? (
-          <VideoTile peer={peer} />
-        ) : (
-          <div className="w-[100%] h-[100%]  rounded-md flex items-center justify-center bg-[#161515]">
-            {peerMetadata.userImage ? (
-              <Image
-                src={peerMetadata.userImage}
-                alt="userImage"
-                width={60}
-                height={60}
-                className="rounded-full"
-              />
-            ) : (
-         
-              <Avatar
-                {...stringAvatar(`${peer.name}`)}
-                className="w-[60px] h-[60px] font-semibold text-2xl"
-              />
-            )}
-          </div>
-        )}
+      )}
 
-        <div className="text-center text-sm font-medium text-white mt-3 absolute bottom-3 left-4 z-20">
-          {peer.name}
-          {peer.roleName === "host"
-            ? "( Host )"
-            : peer.isLocal
-            ? "( You )"
-            : `( ${peer.roleName} )`}
-        </div>
+      <div className="text-center text-sm font-medium text-white mt-3 absolute bottom-3 left-4 z-20">
+        {peer.name}
+        {peer.roleName === "host"
+          ? "( Host )"
+          : peer.isLocal
+          ? "( You )"
+          : `( ${peer.roleName} )`}
       </div>
+    </div>
   );
 };
 
