@@ -14,8 +14,8 @@ const SidePane = () => {
     >
       <div className="w-[100%] h-[8%] flex justify-center items-center ">
         <div className="w-[80%] h-[70%] rounded-full flex justify-center items-center space-x-5 bg-[#636466] text-[8px] lg:text-[13px] 2xl:text-sm">
-          <button  className={` lg:px-[11px] lg:py-[6px] 2xl:px-5 2xl:py-2  rounded-full text-white ${showPeerList ? "bg-[#363636]" : "bg-[#09090a]"} `} onClick={()=> {setShowPeerList(false)}}>Live Chat</button>
-          <button className={`  lg:px-[11px] lg:py-[6px] 2xl:px-5 2xl:py-2 rounded-full text-white ${showPeerList ? "bg-[#09090a]" : "bg-[#363636]"}`} onClick={()=> {setShowPeerList(true)}}>
+          <button  className={` w-[40%] h-[65%]  rounded-full text-white ${showPeerList ? "bg-[#363636]" : "bg-[#09090a]"} `} onClick={()=> {setShowPeerList(false)}}>Live Chat</button>
+          <button className={` w-[45%] h-[65%]  rounded-full text-white ${showPeerList ? "bg-[#09090a]" : "bg-[#363636]"}`} onClick={()=> {setShowPeerList(true)}}>
             Room Members
           </button>
         </div>

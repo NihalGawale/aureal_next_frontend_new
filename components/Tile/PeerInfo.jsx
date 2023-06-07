@@ -87,14 +87,7 @@ const PeerInfo = ({ peer }) => {
                 className="rounded-full"
               />
             ) : (
-              // <Image
-              //   src={defaultImage}
-              //   alt="userImage"
-              //   width={70}
-              //   height={70}
-              //   className="rounded-full"
-              //   cover
-              // />
+         
               <Avatar
                 {...stringAvatar(`${peer.name}`)}
                 className="w-[60px] h-[60px] font-semibold text-2xl"

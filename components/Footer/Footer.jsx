@@ -408,7 +408,16 @@ function Footer(params) {
                 />
               </div>
             ) : (
-              ""
+              <div>
+                 <MenuItem onClick={handleShareLink}>Share Room Link!</MenuItem>
+                 <Snackbar
+                  open={openSnackBar}
+                  onClose={() => setOpenSnackBar(false)}
+                  autoHideDuration={2000}
+                  message="Link Copied to clipboard"
+                  TransitionComponent={TransitionRight}
+                />
+              </div>
             )}
           </Menu>
         </div>
