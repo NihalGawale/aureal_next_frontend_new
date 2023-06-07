@@ -74,18 +74,18 @@ function Footer(params) {
       }
     });
     setOpenSnackBar(true);
-    navigator.clipboard.writeText(
-      `https://aureal-next-frontend-new.vercel.app/liverooms/meeting/${handleLocalStorage(
-        "get",
-        "listenerRoomCode"
-      )}/${room_id}`
-    );
     // navigator.clipboard.writeText(
-    //   `http:localhost:3000/liverooms/meeting/${handleLocalStorage(
+    //   `https://aureal-next-frontend-new.vercel.app/liverooms/meeting/${handleLocalStorage(
     //     "get",
     //     "listenerRoomCode"
     //   )}/${room_id}`
     // );
+    navigator.clipboard.writeText(
+      `http:localhost:3000/liverooms/meeting/${handleLocalStorage(
+        "get",
+        "listenerRoomCode"
+      )}/${room_id}`
+    );
   };
 
   const endRoom = async () => {
@@ -408,7 +408,16 @@ function Footer(params) {
                 />
               </div>
             ) : (
-              ""
+              <div>
+                 <MenuItem onClick={handleShareLink}>Share Room Link!</MenuItem>
+                 <Snackbar
+                  open={openSnackBar}
+                  onClose={() => setOpenSnackBar(false)}
+                  autoHideDuration={2000}
+                  message="Link Copied to clipboard"
+                  TransitionComponent={TransitionRight}
+                />
+              </div>
             )}
           </Menu>
         </div>

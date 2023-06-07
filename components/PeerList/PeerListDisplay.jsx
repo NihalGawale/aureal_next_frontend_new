@@ -79,7 +79,11 @@ const PeerListDisplay = ({ peer }) => {
                 className="w-[100%] h-[100%] rounded-full"
               />
             ) : (
-              <Avatar {...stringAvatar(`${peer.name}`)} className="w-[100%] h-[100%] font-semibold text-sm"/>
+              // <div  className="w-[100%] h-[100%] font-semibold text-sm">
+                 <Avatar {...stringAvatar(`${peer.name}`)} className="w-full h-full text-sm"/>
+              // </div>
+
+             
             )}
 
   </div>
