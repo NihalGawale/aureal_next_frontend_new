@@ -111,19 +111,19 @@ function Footer(params) {
         );
       }
 
-      handleLocalStorage("delete", "authToken");
-      handleLocalStorage("delete", "roomId");
-      handleLocalStorage("delete", "roomName");
-      handleLocalStorage("delete", "userRole");
-      handleLocalStorage("delete", "roomCode");
-      handleLocalStorage("delete", "listenerRoomCode");
+      // handleLocalStorage("delete", "authToken");
+      // handleLocalStorage("delete", "roomId");
+      // handleLocalStorage("delete", "roomName");
+      // handleLocalStorage("delete", "userRole");
+      // handleLocalStorage("delete", "roomCode");
+      // handleLocalStorage("delete", "listenerRoomCode");
 
       await hmsActions.endRoom(lock, reason);
-      router.push(
-        `/liverooms?user_id=${
-          handleLocalStorage("get", "user_id") || "guest-user"
-        }`
-      );
+      // router.push(
+      //   `/liverooms?user_id=${
+      //     handleLocalStorage("get", "user_id") || "guest-user"
+      //   }`
+      // );
     } catch (error) {
       // Permission denied or not connected to room
       console.error(error);
