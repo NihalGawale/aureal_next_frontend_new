@@ -153,12 +153,6 @@ function Footer(params) {
         data,
         config
       );
-      handleLocalStorage("delete", "authToken");
-      handleLocalStorage("delete", "roomId");
-      handleLocalStorage("delete", "roomName");
-      handleLocalStorage("delete", "role");
-      handleLocalStorage("delete", "roomCode");
-      handleLocalStorage("delete", "role");
       return response;
     } catch (err) {
       console.log("Room Create Error: " + err);
