@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Header from "@/components/Explore/Header"; 
 import Body from "@/components/Explore/Body";
 import Sidebar from "@/components/SideBar/Sidebar";
+import Category from "@/components/Explore/Category";
 
 export default function ExplorePage() {
   const [explorePodcastData, setExplorePodcastData] = useState([]);
@@ -23,7 +24,7 @@ export default function ExplorePage() {
     <div id="Explore" className="flex">
       <div
         id="SideBar"
-        className="w-[14%] h-screen  hidden lg:block"
+        className="w-[14%] h-screen  hidden lg:block border-r border-gray-700"
       >
         <Sidebar />
       </div>
@@ -33,6 +34,7 @@ export default function ExplorePage() {
       >
         <div className="w-[100%] h-[100%] overflow-x-hidden">
           <Header />
+          {/* <Category /> */}
           <Body data={explorePodcastData} />
         </div>
       </div>

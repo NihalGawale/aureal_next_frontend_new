@@ -85,7 +85,7 @@ body {
 }
 
 .explore-components{
-  @apply w-[100%] h-[50%] pt-6 pl-5 md:pl-10 lg:pl-14 text-base sm:text-2xl font-medium text-white
+  @apply w-[100%] h-[45%]  pl-5 md:pl-10 lg:pl-14 text-base sm:text-2xl font-medium text-white
 }
 
 .podcastName{
