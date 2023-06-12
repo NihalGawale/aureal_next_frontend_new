@@ -4,13 +4,13 @@ import React from 'react';
 import PersonIcon from "@mui/icons-material/Person";
 import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 const PreviewUserCard = () => {
-    const {userData} = useUserContext();
+    const {userData,handleLocalStorage} = useUserContext();
 
   return (
     <div id="previewUserCard" className="  relative  h-[100px] w-[100px] rounded-full justify-center items-center">
-    {userData.img ? (
+    {userData.img ||  handleLocalStorage("get","userImage") ? (
       <Image
-        src={userData.img}
+        src={userData.img ? userData.img : handleLocalStorage("get","userImage")}
        fill={true}
         alt="user-image"
         className="rounded-full object-cover"
