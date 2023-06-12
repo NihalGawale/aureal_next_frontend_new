@@ -1,4 +1,4 @@
-import { useAVToggle } from "@100mslive/react-sdk";
+import { useAVToggle} from "@100mslive/react-sdk";
 import React from "react";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
@@ -11,6 +11,7 @@ const PreviewControls = () => {
   const { isLocalAudioEnabled, isLocalVideoEnabled, toggleAudio, toggleVideo } =
     useAVToggle();
   const { userRole } = useUserContext();
+ 
   return (
     <div className="w-full h-full  flex flex-row space-x-5 items-center justify-center">
       <div className="py-[6px] px-[7px] backdrop-blur-md bg-white/20  rounded-full flex items-center justify-center hover:cursor-pointer">

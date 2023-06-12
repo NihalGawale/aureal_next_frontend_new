@@ -11,8 +11,10 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 import VideoTile from "./VideoTile";
 import Avatar from "@mui/material/Avatar";
+import { useUserContext } from "@/contexts/UserContext";
 
 const PeerInfo = ({ peer }) => {
+  const {handleLocalStorage} = useUserContext();
   let level = useHMSStore(selectPeerAudioByID(peer.id)) || 0;
 
   const audioEnabled = useHMSStore(selectIsPeerAudioEnabled(peer.id));
@@ -79,9 +81,9 @@ const PeerInfo = ({ peer }) => {
         <VideoTile peer={peer} />
       ) : (
         <div className="w-[100%] h-[100%]  rounded-md flex items-center justify-center bg-[#161515]">
-          {peerMetadata.userImage ? (
+          {peerMetadata.userImage || handleLocalStorage("get","userImage") ? (
             <Image
-              src={peerMetadata.userImage}
+              src={peerMetadata.userImage || handleLocalStorage("get","userImage")}
               alt="userImage"
               width={60}
               height={60}
