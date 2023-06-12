@@ -43,7 +43,7 @@ const ShowModal = () => {
   useEffect(() => {
     if (userEnteredRoomName) {
       let title = userEnteredRoomName;
-      title = title.replaceAll(" ", "_");
+      title = title.trim().replaceAll(" ", "_");
 
       setRoomName(title);
     }
