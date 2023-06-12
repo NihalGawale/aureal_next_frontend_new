@@ -27,7 +27,7 @@ const preview = () => {
       >
         <Image
           src="/assets/preview-img.webp"
-          width={650}
+          width={700}
           height={0}
           className="rounded-xl"
           alt="preview-image"
