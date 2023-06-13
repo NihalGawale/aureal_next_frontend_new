@@ -10,13 +10,12 @@ import {
   useAVToggle,
   useHMSActions,
   useHMSStore,
-  useDevices,
-  DeviceType,
 } from "@100mslive/react-sdk";
 import { useUserContext } from "@/contexts/UserContext";
 import { useRouter } from "next/navigation";
 import PreviewUserCard from "./PreviewUserCard";
 import { useRoomContext } from "@/contexts/RoomContext";
+import DeviceSelector from "./DeviceSelector";
 
 const Preview = () => {
   const { remotePeers, level } = usePeerContext();
@@ -45,18 +44,7 @@ const Preview = () => {
   const handleChangeUserName = (e) => {
     setUserName(e.target.value);
   };
-  const DeviceSettings = () => {
-    const { allDevices, selectedDeviceIDs, updateDevice } = useDevices();
-    const { videoInput, audioInput, audioOutput } = allDevices;
-    // Call the updateDevice function like below to update the videoInput device. Similarly for audio input and output pass corresponding deviceId and DeviceType
-    updateDevice({
-      deviceId,
-      deviceType: DeviceType.videoInput,
-    });
 
-    // render devices and selection from allDevices and selectedDeviceIDs
-    return <div />;
-  };
 
   let token;
   let response;
@@ -146,12 +134,12 @@ const Preview = () => {
   }, []);
   if (isInPreview) {
     return (
-      <div className="w-full h-[41%] flex justify-center items-center">
+      <div className="w-full h-[45%] flex justify-center items-center">
         <div className="w-[80%] h-full bg-[#1a1a1a] rounded-2xl">
           <div className="w-full h-[5%]  pt-8 flex justify-end items-center pr-5">
             <ShareRoomUrl roomCode={listenerRoomCode} roomId={roomId} />
           </div>
-          <div className="h-[75%] w-full  flex justify-center items-center">
+          <div className="h-[65%] w-full  flex justify-center items-center">
             <div
               className="w-[50%] relative overflow-hidden h-[80%] bg-black border-[3px] border-[#1a1a1a] rounded-2xl flex justify-center items-center"
               style={{
@@ -164,8 +152,8 @@ const Preview = () => {
               </div>
             </div>
           </div>
-          <div className="h-[20%] w-full pb-5">
-            <div className=" h-[80%] w-full flex justify-center items-end space-x-4">
+          <div className="h-[30%] w-full ">
+            <div className=" h-[50%] w-full flex justify-center items-end space-x-4">
               <Input
                 id="outlined-basic"
                 value={userName}
@@ -184,6 +172,10 @@ const Preview = () => {
                 Join Room
               </Button>
             </div>
+            <div className="h-[50%] w-full flex justify-center items-center">
+
+          <DeviceSelector />
+            </div>
           </div>
         </div>
       </div>
@@ -195,7 +187,7 @@ const Preview = () => {
       <div role="status">
         <svg
           aria-hidden="true"
-          class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+          className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -209,7 +201,7 @@ const Preview = () => {
             fill="currentFill"
           />
         </svg>
-        <span class="sr-only">Loading...</span>
+        <span className="sr-only">Loading...</span>
       </div>
     </div>
     </div>
