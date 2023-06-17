@@ -1,9 +1,24 @@
 "use client";
 import Preview from "@/components/Preview/Preview";
+import { useUserContext } from "@/contexts/UserContext";
+import {
+  selectIsConnectedToRoom,
+  useHMSActions,
+  useHMSStore,
+} from "@100mslive/react-sdk";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 
 const preview = () => {
+  const { deleteDataOnLeave } = useUserContext();
+
+  const hmsActions = useHMSActions();
+  const isConnected = useHMSStore(selectIsConnectedToRoom);
+  useEffect(() => {
+    if (isConnected) {
+      hmsActions.leave();
+    }
+  }, []);
   return (
     <div id="preview-page" className="w-screen h-screen flex bg-black">
       <div
@@ -23,7 +38,7 @@ const preview = () => {
 
       <div
         id="preview-right-div"
-        className="w-6/12 h-full flex justify-center items-center"
+        className="w-6/12 h-full pt-14 flex justify-center items-center"
       >
         <Image
           src="/assets/preview-img.webp"

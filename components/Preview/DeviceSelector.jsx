@@ -46,8 +46,18 @@ const DeviceSelector = () => {
   // render devices and selection from allDevices and selectedDeviceIDs
   return (
     <div className="w-full h-full flex justify-center items-center space-x-4">
-      <FormControl sx={{ m: 1, width: 140, minHeight: 0 }} size="small" >
-        <InputLabel id="audioInput">Audio Input</InputLabel>
+      <div className="flex- flex-col">
+        <div className="text-xs">
+          *Default I/O devices are already selected.
+        </div>
+        <div className="text-xs">
+          *You can modify if required.
+        </div>
+      </div>
+      <FormControl sx={{ m: 1, width: 140, minHeight: 0 }} size="small">
+        <InputLabel id="audioInput" style={{ color: "white" }}>
+          Audio Input
+        </InputLabel>
         <Select
           className="bg-[#262626] text-black w-full h-full "
           style={{ borderRadius: "20px" }}
@@ -73,7 +83,9 @@ const DeviceSelector = () => {
       </FormControl>
 
       <FormControl sx={{ m: 1, width: 140, minHeight: 0 }} size="small">
-        <InputLabel id="audioOutput">Audio Output</InputLabel>
+        <InputLabel id="audioOutput" style={{ color: "white" }}>
+          Audio Output
+        </InputLabel>
         <Select
           className="bg-[#262626] text-black"
           style={{ borderRadius: "20px" }}
@@ -99,7 +111,9 @@ const DeviceSelector = () => {
       </FormControl>
 
       <FormControl sx={{ m: 1, width: 140, minHeight: 0 }} size="small">
-        <InputLabel id="videoInput">Video Input</InputLabel>
+        <InputLabel id="videoInput" style={{ color: "white" }}>
+          Video Input
+        </InputLabel>
         <Select
           className="bg-[#262626] text-black"
           style={{ borderRadius: "20px" }}

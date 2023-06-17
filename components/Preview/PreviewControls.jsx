@@ -11,7 +11,8 @@ import DeviceSelector from "./DeviceSelector";
 const PreviewControls = () => {
   const { isLocalAudioEnabled, isLocalVideoEnabled, toggleAudio, toggleVideo } =
     useAVToggle();
-  const { userRole } = useUserContext(); 
+  const {handleLocalStorage} = useUserContext();
+  const userRole = handleLocalStorage("get", "userRole")
   const[deviceSelector, setDeviceSeletor] = useState(false);
   
   return (
@@ -77,7 +78,7 @@ const PreviewControls = () => {
         </button>
       </div>
 
-      <div className="py-[6px] px-[7px]  backdrop-blur-md bg-white/20  rounded-full  flex items-center justify-center">
+      {/* <div className="py-[6px] px-[7px]  backdrop-blur-md bg-white/20  rounded-full  flex items-center justify-center">
         <button>
           <MoreVertIcon onClick={() => setDeviceSeletor(true)} />
           {
@@ -85,7 +86,7 @@ const PreviewControls = () => {
           }
           
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
